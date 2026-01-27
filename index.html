@@ -2,12 +2,12 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>ASEAN SMART TEAM - SKB JEPARA</title>
+<title>ASEAN SMART TEAM – SKB JEPARA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body{
-  font-family: Arial;
-  background: linear-gradient(135deg,#c62828,#1565c0);
+  font-family:Arial;
+  background:linear-gradient(135deg,#b71c1c,#0d47a1);
   color:#fff;
   text-align:center;
   padding:20px;
@@ -15,91 +15,142 @@ body{
 .box{
   background:#fff;
   color:#000;
-  max-width:700px;
+  max-width:750px;
   margin:auto;
   padding:20px;
   border-radius:15px;
 }
 button{
-  padding:12px 20px;
-  margin:10px;
+  padding:12px 18px;
+  margin:8px;
   border:none;
   border-radius:10px;
-  background:#1565c0;
+  background:#0d47a1;
   color:#fff;
   font-size:16px;
 }
-button:hover{background:#0d47a1;}
-#quiz,#hasil{display:none;}
+button:hover{background:#08306b;}
+#game,#hasil,#sertifikat{display:none;}
 </style>
 </head>
 
 <body>
 
 <h1>🔥 ASEAN SMART TEAM 🔥</h1>
-<h3>SKB JEPARA</h3>
+<h3>SANGGAR KEGIATAN BELAJAR JEPARA</h3>
 
 <audio id="bgm" loop src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_8b7b2c6c86.mp3"></audio>
 <audio id="klik" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8b4b8b3a0.mp3"></audio>
 
 <div class="box" id="awal">
-  <h2>Masukkan Nama</h2>
-  <input id="nama" style="padding:10px;width:80%">
-  <br>
-  <button onclick="mulai()">🎮 Mulai Game</button>
+<h2>🎮 Game Edukasi ASEAN</h2>
+<input id="nama" placeholder="Masukkan Nama" style="padding:10px;width:80%">
+<br>
+<button onclick="mulai()">🚀 Mulai Game</button>
 </div>
 
-<div class="box" id="quiz">
-  <h2 id="soal"></h2>
-  <div id="opsi"></div>
-  <p>Skor: <span id="skor">0</span></p>
+<div class="box" id="game">
+<h3 id="level"></h3>
+<h2 id="soal"></h2>
+<div id="opsi"></div>
+<p>⏱️ Waktu: <span id="waktu">15</span> | ⭐ Skor: <span id="skor">0</span></p>
 </div>
 
 <div class="box" id="hasil">
-  <h2>🎉 GAME SELESAI 🎉</h2>
-  <p id="nilai"></p>
+<h2>🎉 GAME SELESAI 🎉</h2>
+<p id="nilai"></p>
+<button onclick="buatSertifikat()">📜 Cetak Sertifikat</button>
+</div>
+
+<div class="box" id="sertifikat">
+<h2>📜 SERTIFIKAT</h2>
+<img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/ASEAN_logo.svg" width="120">
+<p>Dengan ini menyatakan bahwa</p>
+<h2 id="namaSertifikat"></h2>
+<p>Telah menyelesaikan</p>
+<b>ASEAN SMART TEAM – SKB JEPARA</b>
+<p id="skorAkhir"></p>
 </div>
 
 <script>
-const soal=[
-{t:"ASEAN berdiri tahun?",o:["1967","1970","1985"],j:0},
-{t:"Sekretariat ASEAN di?",o:["Jakarta","Bangkok","Hanoi"],j:0}
+const levelSoal=[
+[
+{t:"ASEAN berdiri tahun?",o:["1967","1975","1980"],j:0},
+{t:"Pendiri ASEAN berapa negara?",o:["5","7","10"],j:0}
+],
+[
+{t:"Sekretariat ASEAN di?",o:["Jakarta","Bangkok","Hanoi"],j:0},
+{t:"Negara ASEAN terbaru?",o:["Vietnam","Timor Leste","Myanmar"],j:1}
+]
 ];
 
-let i=0,skor=0;
+let level=0,soalIndex=0,skor=0,waktu=15,timer;
 
 function mulai(){
-  document.getElementById("awal").style.display="none";
-  document.getElementById("quiz").style.display="block";
   document.getElementById("bgm").play().catch(()=>{});
+  document.getElementById("awal").style.display="none";
+  document.getElementById("game").style.display="block";
   tampil();
 }
 
 function tampil(){
-  let s=soal[i];
+  clearInterval(timer);
+  waktu=15;
+  document.getElementById("waktu").innerText=waktu;
+  document.getElementById("level").innerText="LEVEL "+(level+1);
+  let s=levelSoal[level][soalIndex];
   document.getElementById("soal").innerText=s.t;
   let html="";
-  s.o.forEach((o,x)=>{
-    html+=`<button onclick="jawab(${x})">${o}</button><br>`;
+  s.o.forEach((o,i)=>{
+    html+=`<button onclick="jawab(${i})">${o}</button><br>`;
   });
   document.getElementById("opsi").innerHTML=html;
+
+  timer=setInterval(()=>{
+    waktu--;
+    document.getElementById("waktu").innerText=waktu;
+    if(waktu==0){lanjut();}
+  },1000);
 }
 
-function jawab(x){
+function jawab(i){
   document.getElementById("klik").play().catch(()=>{});
-  if(x===soal[i].j) skor+=10;
+  let s=levelSoal[level][soalIndex];
+  if(i===s.j) skor+=10;
+  lanjut();
+}
+
+function lanjut(){
+  clearInterval(timer);
+  soalIndex++;
   document.getElementById("skor").innerText=skor;
-  i++;
-  if(i<soal.length) tampil();
-  else selesai();
+  if(soalIndex<levelSoal[level].length){
+    tampil();
+  }else{
+    level++;
+    soalIndex=0;
+    if(level<levelSoal.length){
+      tampil();
+    }else{
+      selesai();
+    }
+  }
 }
 
 function selesai(){
-  document.getElementById("quiz").style.display="none";
+  document.getElementById("game").style.display="none";
   document.getElementById("hasil").style.display="block";
   document.getElementById("nilai").innerText="Skor Akhir: "+skor;
+}
+
+function buatSertifikat(){
+  document.getElementById("hasil").style.display="none";
+  document.getElementById("sertifikat").style.display="block";
+  document.getElementById("namaSertifikat").innerText=document.getElementById("nama").value;
+  document.getElementById("skorAkhir").innerText="Skor: "+skor;
 }
 </script>
 
 </body>
 </html>
+
