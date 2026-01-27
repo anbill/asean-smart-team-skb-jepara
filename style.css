@@ -1,0 +1,23 @@
+body {
+  text-align: center;
+  font-family: Arial;
+  background: linear-gradient(120deg,#001f3f,#0074D9);
+  color: white;
+}
+
+.logo {
+  width: 150px;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { filter: drop-shadow(0 0 5px gold); }
+  to { filter: drop-shadow(0 0 20px gold); }
+}
+
+button {
+  padding: 12px 20px;
+  margin: 10px;
+  font-size: 16px;
+  border-radius: 10px;
+}
