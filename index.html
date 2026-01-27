@@ -1,20 +1,77 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>ASEAN SMART TEAM – SKB Jepara</title>
+<meta charset="UTF-8">
+<title>ASEAN SMART TEAM - SKB JEPARA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg,#d32f2f,#1976d2);
+  color:#fff;
+  text-align:center;
+  margin:0;
+  padding:20px;
+}
+.box{
+  background:#ffffff;
+  color:#000;
+  max-width:800px;
+  margin:auto;
+  padding:20px;
+  border-radius:15px;
+}
+button{
+  padding:10px 20px;
+  margin:10px;
+  border:none;
+  border-radius:10px;
+  background:#1976d2;
+  color:#fff;
+  font-size:16px;
+}
+button:hover{background:#0d47a1;}
+#quiz{display:none;}
+#hasil{display:none;}
+</style>
 </head>
-<body style="text-align:center; font-family:Arial; background:#f4f4f4; padding:40px;">
 
-  <h1>🔥 ASEAN SMART TEAM 🔥</h1>
-  <h2>SANGGAR KEGIATAN BELAJAR JEPARA</h2>
+<body>
 
-  <p>Game kuis online kerja sama ASEAN</p>
-  <p><b>Resmi SKB Jepara</b></p>
+<h1>🔥 ASEAN SMART TEAM 🔥</h1>
+<h3>SANGGAR KEGIATAN BELAJAR JEPARA</h3>
+<p>Game Kuis Online Kerja Sama ASEAN</p>
 
-  <hr>
+<div class="box" id="awal">
+  <h2>Masukkan Nama Tim / Peserta</h2>
+  <input id="nama" placeholder="Nama Tim" style="padding:10px;width:80%">
+  <br>
+  <button onclick="mulai()">Mulai Game</button>
+</div>
 
-  <p>Website berhasil diaktifkan 🎉</p>
+<div class="box" id="quiz">
+  <h2 id="soal"></h2>
+  <div id="opsi"></div>
+  <p>Skor: <span id="skor">0</span></p>
+</div>
 
-</body>
-</html>
+<div class="box" id="hasil">
+  <h2>🎉 SELESAI 🎉</h2>
+  <p id="nilai"></p>
+  <button onclick="sertifikat()">Unduh Sertifikat</button>
+</div>
+
+<script>
+const soalData=[
+{t:"ASEAN didirikan pada tahun?",o:["1967","1975","1980","1990"],j:0},
+{t:"Negara pendiri ASEAN berjumlah?",o:["5","7","10","11"],j:0},
+{t:"Tujuan utama ASEAN adalah?",o:["Kerja sama regional","Perang","Penjajahan","Perdagangan bebas dunia"],j:0},
+{t:"Indonesia di ASEAN berperan sebagai?",o:["Pendiri","Pengamat","Tamu","Penjajah"],j:0},
+{t:"Sekretariat ASEAN berada di?",o:["Jakarta","Bangkok","Manila","Hanoi"],j:0}
+];
+
+let index=0,skor=0,nama="";
+
+function mulai(){
+  nama=document.getElementById("n
+  
