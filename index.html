@@ -3,33 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <title>ASEAN SMART TEAM – SKB Jepara</title>
-
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
-
-  <!-- Musik -->
-  <audio id="bgm" src="music.mp3" loop></audio>
 </head>
 <body>
 
-  <!-- LOGO -->
+<!-- AUDIO -->
+<audio id="bgm" src="music.mp3" loop></audio>
+<audio id="clickSound" src="click.mp3"></audio>
+<audio id="correctSound" src="correct.mp3"></audio>
+<audio id="wrongSound" src="wrong.mp3"></audio>
+
+<div class="container fade">
   <img src="logo-skb.png" class="logo">
-
   <h1>🔥 ASEAN SMART TEAM 🔥</h1>
-  <h2>SKB Jepara</h2>
+  <p>Game Edukasi ASEAN – SKB Jepara</p>
 
-  <button onclick="startGame()">🎮 MULAI GAME</button>
-  <button onclick="openMap()">🗺️ PETA ASEAN</button>
-  <button onclick="openLeaderboard()">🏆 LEADERBOARD</button>
+  <button onclick="startAll()">🎮 MULAI GAME</button>
+  <button onclick="showMap()">🗺️ PETA ASEAN</button>
 
   <div id="game"></div>
+</div>
 
-  <!-- SCRIPT -->
-  <script src="game.js"></script>
-  <script src="map.js"></script>
-  <script src="leaderboard.js"></script>
+<script src="game.js"></script>
+<script src="map.js"></script>
+<script src="pdf.js"></script>
 </body>
 </html>
-
-
 
