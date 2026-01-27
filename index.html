@@ -1,186 +1,35 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>ASEAN SMART TEAM - SKB JEPARA</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:radial-gradient(circle at top,#ff5252,#1a237e);
-  color:#fff;
-  text-align:center;
-}
-.container{
-  max-width:800px;
-  margin:auto;
-  padding:20px;
-}
-.card{
-  background:#fff;
-  color:#000;
-  padding:20px;
-  border-radius:16px;
-  animation:fadeIn .5s;
-}
-button{
-  width:100%;
-  padding:14px;
-  margin:8px 0;
-  border:none;
-  border-radius:12px;
-  font-size:16px;
-  background:#1a237e;
-  color:#fff;
-}
-button:hover{background:#0d47a1}
-.progress{
-  height:12px;
-  background:#ddd;
-  border-radius:10px;
-  overflow:hidden;
-}
-.progress div{
-  height:100%;
-  width:0%;
-  background:#4caf50;
-  transition:.4s;
-}
-.hidden{display:none}
-@keyframes fadeIn{
-  from{opacity:0;transform:scale(.95)}
-  to{opacity:1;transform:scale(1)}
-}
-.correct{background:#4caf50!important}
-.wrong{background:#e53935!important}
-</style>
+  <meta charset="UTF-8">
+  <title>ASEAN SMART TEAM – SKB Jepara</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Musik -->
+  <audio id="bgm" src="music.mp3" loop></audio>
 </head>
-
 <body>
-<div class="container">
 
-<h1>🔥 ASEAN SMART TEAM 🔥</h1>
-<h3>SKB JEPARA</h3>
+  <!-- LOGO -->
+  <img src="logo-skb.png" class="logo">
 
-<audio id="bgm" loop src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_8b7b2c6c86.mp3"></audio>
-<audio id="benar" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9d6a6c1f23.mp3"></audio>
-<audio id="salah" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9a42e30b19.mp3"></audio>
+  <h1>🔥 ASEAN SMART TEAM 🔥</h1>
+  <h2>SKB Jepara</h2>
 
-<div id="start" class="card">
-<h2>🎮 Game Edukasi ASEAN</h2>
-<input id="nama" placeholder="Masukkan Nama" style="width:100%;padding:12px">
-<br><br>
-<button onclick="mulai()">🚀 MULAI</button>
-</div>
+  <button onclick="startGame()">🎮 MULAI GAME</button>
+  <button onclick="openMap()">🗺️ PETA ASEAN</button>
+  <button onclick="openLeaderboard()">🏆 LEADERBOARD</button>
 
-<div id="game" class="card hidden">
-<h3 id="level"></h3>
-<div class="progress"><div id="bar"></div></div>
-<h2 id="soal"></h2>
-<div id="opsi"></div>
-<p>⏱️ <span id="waktu">15</span> detik | ⭐ Skor: <span id="skor">0</span></p>
-<p id="info"></p>
-</div>
+  <div id="game"></div>
 
-<div id="akhir" class="card hidden">
-<h2>🏆 SELESAI</h2>
-<p id="hasil"></p>
-<button onclick="sertifikat()">📜 LIHAT SERTIFIKAT</button>
-</div>
-
-<div id="sertifikat" class="card hidden">
-<img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/ASEAN_logo.svg" width="120">
-<h2>SERTIFIKAT</h2>
-<p>Diberikan kepada</p>
-<h3 id="namaS"></h3>
-<p>Telah menyelesaikan</p>
-<b>ASEAN SMART TEAM – SKB JEPARA</b>
-<p id="skorS"></p>
-</div>
-
-</div>
-
-<script>
-const soal=[
-{q:"ASEAN didirikan tahun?",o:["1967","1970","1985"],a:0,i:"ASEAN berdiri di Bangkok."},
-{q:"Jumlah negara ASEAN?",o:["8","10","11"],a:1,i:"Saat ini ada 10 negara."},
-{q:"Sekretariat ASEAN berada di?",o:["Jakarta","Manila","Hanoi"],a:0,i:"Jakarta adalah pusat ASEAN."},
-{q:"Tujuan ASEAN?",o:["Kerja sama","Perang","Ekspansi"],a:0,i:"Fokus perdamaian & kerja sama."},
-{q:"Indonesia bergabung tahun?",o:["1967","1975","1980"],a:0,i:"Indonesia pendiri ASEAN."},
-{q:"Bendera ASEAN berwarna?",o:["Merah Biru","Hijau","Hitam"],a:0,i:"Melambangkan persatuan."},
-{q:"ASEAN bergerak di bidang?",o:["Ekonomi","Pendidikan","Semua"],a:2,i:"Kerja sama luas."},
-{q:"Negara ASEAN di Asia Tenggara?",o:["Ya","Tidak","Sebagian"],a:0,i:"Letak geografis ASEAN."}
-];
-
-let index=0,skor=0,waktu=15,timer;
-
-function mulai(){
-document.getElementById("bgm").play().catch(()=>{});
-document.getElementById("start").classList.add("hidden");
-document.getElementById("game").classList.remove("hidden");
-tampil();
-}
-
-function tampil(){
-clearInterval(timer);
-waktu=15;
-document.getElementById("waktu").innerText=waktu;
-document.getElementById("level").innerText="Soal "+(index+1)+" / "+soal.length;
-document.getElementById("bar").style.width=((index)/soal.length*100)+"%";
-document.getElementById("soal").innerText=soal[index].q;
-document.getElementById("info").innerText="";
-let html="";
-soal[index].o.forEach((x,i)=>{
-html+=`<button onclick="jawab(${i},this)">${x}</button>`;
-});
-document.getElementById("opsi").innerHTML=html;
-
-timer=setInterval(()=>{
-waktu--;
-document.getElementById("waktu").innerText=waktu;
-if(waktu==0) lanjut();
-},1000);
-}
-
-function jawab(i,el){
-clearInterval(timer);
-let s=soal[index];
-if(i==s.a){
-el.classList.add("correct");
-document.getElementById("benar").play();
-skor+=10;
-}else{
-el.classList.add("wrong");
-document.getElementById("salah").play();
-}
-document.getElementById("info").innerText=s.i;
-setTimeout(lanjut,1000);
-}
-
-function lanjut(){
-index++;
-document.getElementById("skor").innerText=skor;
-if(index<soal.length) tampil();
-else selesai();
-}
-
-function selesai(){
-document.getElementById("game").classList.add("hidden");
-document.getElementById("akhir").classList.remove("hidden");
-document.getElementById("hasil").innerText="Skor Akhir: "+skor;
-}
-
-function sertifikat(){
-document.getElementById("akhir").classList.add("hidden");
-document.getElementById("sertifikat").classList.remove("hidden");
-document.getElementById("namaS").innerText=document.getElementById("nama").value;
-document.getElementById("skorS").innerText="Skor: "+skor;
-}
-</script>
+  <!-- SCRIPT -->
+  <script src="game.js"></script>
+  <script src="map.js"></script>
+  <script src="leaderboard.js"></script>
 </body>
-                                  </html>
+</html>
 
 
 
