@@ -6,47 +6,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body{
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg,#d32f2f,#1976d2);
+  font-family: Arial;
+  background: linear-gradient(135deg,#c62828,#1565c0);
   color:#fff;
   text-align:center;
-  margin:0;
   padding:20px;
 }
 .box{
-  background:#ffffff;
+  background:#fff;
   color:#000;
-  max-width:800px;
+  max-width:700px;
   margin:auto;
   padding:20px;
   border-radius:15px;
 }
 button{
-  padding:10px 20px;
+  padding:12px 20px;
   margin:10px;
   border:none;
   border-radius:10px;
-  background:#1976d2;
+  background:#1565c0;
   color:#fff;
   font-size:16px;
 }
 button:hover{background:#0d47a1;}
-#quiz{display:none;}
-#hasil{display:none;}
+#quiz,#hasil{display:none;}
 </style>
 </head>
 
 <body>
 
 <h1>🔥 ASEAN SMART TEAM 🔥</h1>
-<h3>SANGGAR KEGIATAN BELAJAR JEPARA</h3>
-<p>Game Kuis Online Kerja Sama ASEAN</p>
+<h3>SKB JEPARA</h3>
+
+<audio id="bgm" loop src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_8b7b2c6c86.mp3"></audio>
+<audio id="klik" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8b4b8b3a0.mp3"></audio>
 
 <div class="box" id="awal">
-  <h2>Masukkan Nama Tim / Peserta</h2>
-  <input id="nama" placeholder="Nama Tim" style="padding:10px;width:80%">
+  <h2>Masukkan Nama</h2>
+  <input id="nama" style="padding:10px;width:80%">
   <br>
-  <button onclick="mulai()">Mulai Game</button>
+  <button onclick="mulai()">🎮 Mulai Game</button>
 </div>
 
 <div class="box" id="quiz">
@@ -56,22 +56,50 @@ button:hover{background:#0d47a1;}
 </div>
 
 <div class="box" id="hasil">
-  <h2>🎉 SELESAI 🎉</h2>
+  <h2>🎉 GAME SELESAI 🎉</h2>
   <p id="nilai"></p>
-  <button onclick="sertifikat()">Unduh Sertifikat</button>
 </div>
 
 <script>
-const soalData=[
-{t:"ASEAN didirikan pada tahun?",o:["1967","1975","1980","1990"],j:0},
-{t:"Negara pendiri ASEAN berjumlah?",o:["5","7","10","11"],j:0},
-{t:"Tujuan utama ASEAN adalah?",o:["Kerja sama regional","Perang","Penjajahan","Perdagangan bebas dunia"],j:0},
-{t:"Indonesia di ASEAN berperan sebagai?",o:["Pendiri","Pengamat","Tamu","Penjajah"],j:0},
-{t:"Sekretariat ASEAN berada di?",o:["Jakarta","Bangkok","Manila","Hanoi"],j:0}
+const soal=[
+{t:"ASEAN berdiri tahun?",o:["1967","1970","1985"],j:0},
+{t:"Sekretariat ASEAN di?",o:["Jakarta","Bangkok","Hanoi"],j:0}
 ];
 
-let index=0,skor=0,nama="";
+let i=0,skor=0;
 
 function mulai(){
-  nama=document.getElementById("n
-  
+  document.getElementById("awal").style.display="none";
+  document.getElementById("quiz").style.display="block";
+  document.getElementById("bgm").play().catch(()=>{});
+  tampil();
+}
+
+function tampil(){
+  let s=soal[i];
+  document.getElementById("soal").innerText=s.t;
+  let html="";
+  s.o.forEach((o,x)=>{
+    html+=`<button onclick="jawab(${x})">${o}</button><br>`;
+  });
+  document.getElementById("opsi").innerHTML=html;
+}
+
+function jawab(x){
+  document.getElementById("klik").play().catch(()=>{});
+  if(x===soal[i].j) skor+=10;
+  document.getElementById("skor").innerText=skor;
+  i++;
+  if(i<soal.length) tampil();
+  else selesai();
+}
+
+function selesai(){
+  document.getElementById("quiz").style.display="none";
+  document.getElementById("hasil").style.display="block";
+  document.getElementById("nilai").innerText="Skor Akhir: "+skor;
+}
+</script>
+
+</body>
+</html>
